@@ -1,0 +1,56 @@
+require('dotenv').config();
+
+const express = require("express");
+const multer = require('multer');
+const path = require('path');
+const mongoose = require("mongoose");
+const cors = require('cors');
+const app = express();
+
+//routes
+
+const userRoutes = require('./Routes/userRoutes');
+const treatmentRoutes = require('./Routes/treatmentRecordsRoutes');
+const medRecRoutes = require('./Routes/medRecRoutes');
+const dentalRecRoutes = require('./Routes/dentalRecRoutes');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+  
+  const storage = multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, 'Public/Files');
+      },
+      filename: (req, file, cb) => {
+        const uniqueName = Date.now() + '-' + file.originalname;
+        cb(null, uniqueName);
+      }
+    });
+  
+  const upload = multer({ storage });
+
+  app.post('/upload', upload.single('file') , (req, res) => {
+    console.log(req.file);
+  })
+
+app.use("/user", userRoutes);
+app.use("/treatment", treatmentRoutes);
+app.use("/record", medRecRoutes);
+app.use("/dental", dentalRecRoutes);
+
+async function connect() {
+    try {
+        await mongoose.connect(process.env.uri);
+        console.log("Successfully Connected to Mongodb");
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+connect();
+
+app.listen(process.env.Port, () => console.log(`Server running on ${process.env.Port}`));
+
+
