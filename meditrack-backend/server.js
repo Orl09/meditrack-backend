@@ -19,21 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
   
-  const storage = multer.diskStorage({
-      destination: (req, file, cb) => {
-        cb(null, 'Public/Files');
-      },
-      filename: (req, file, cb) => {
-        const uniqueName = Date.now() + '-' + file.originalname;
-        cb(null, uniqueName);
-      }
-    });
-  
-  const upload = multer({ storage });
 
-  app.post('/upload', upload.single('file') , (req, res) => {
-    console.log(req.file);
-  })
 
 app.use("/user", userRoutes);
 app.use("/treatment", treatmentRoutes);

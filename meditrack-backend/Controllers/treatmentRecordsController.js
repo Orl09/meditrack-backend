@@ -60,3 +60,13 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
             })
         
         }
+
+        module.exports.fileUpload = (file, userID) => {
+            console.log(userID);
+
+            try{
+            res.send({ status: "success", message: `${file.originalname} uploaded!` })
+            } catch(err){
+            res.send({ status: "err", error: err })
+            }
+        }

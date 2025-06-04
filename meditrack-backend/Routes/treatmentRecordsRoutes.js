@@ -6,26 +6,33 @@ const path = require('path');
 const treatmentRecordsController = require('../Controllers/treatmentRecordsController');
 
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, '../Public/Files');
-    },
-    filename: (req, file, cb) => {
-      const uniqueName = Date.now() + '-' + file.originalname;
-      cb(null, uniqueName);
-    }
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+  cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+  let extArray = file.mimetype.split("/");
+  let extension = extArray[extArray.length - 1];
+  cb(null, file.fieldname + '-' + Date.now()+ '.' +extension)
+  }
   });
 
-const upload = multer({ storage });
 
+const upload = multer({ storage: storage })
 
+router.route("/upload").post(upload.single('image'), treatmentRecordsController.fileUpload);
 
-router.get("/:id", (req, res) => {
-    treatmentRecordsController.findTreatment(req.params.id).then(resultFromController => res.send(resultFromController));
-});
+router.post("/upload", upload.single('image'), (req,res) => {
+  treatmentRecordsController.fileUpload;
+})
+
 
 router.post("/add", (req, res) => {
     treatmentRecordsController.addTreatment(req.body).then(result => res.send(result))
+});
+
+router.get("/:id", (req, res) => {
+  treatmentRecordsController.findTreatment(req.params.id).then(resultFromController => res.send(resultFromController));
 });
 
 //update treatment
