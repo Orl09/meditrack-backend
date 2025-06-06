@@ -7,6 +7,11 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 const app = express();
 
+
+
+// Serve uploads folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 //routes
 
 const userRoutes = require('./Routes/userRoutes');

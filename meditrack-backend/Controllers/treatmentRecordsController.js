@@ -32,7 +32,7 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
                     return false;
     
                 } else{
-                    return true;
+                    return treatment;
                 }
             })
         }
