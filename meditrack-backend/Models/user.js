@@ -81,6 +81,23 @@ const userSchema = new mongoose.Schema({
         type: Date
     },
 
+	attachment: {
+        fieldName: {
+            type: String
+        },
+        originalName: {
+            type: String
+        },
+
+        filename: {
+            type: String
+
+        },
+        path: {
+            type: String
+        }
+    },
+
 	isAdmin: {
 		type: Boolean,
 		default: false

@@ -55,18 +55,32 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
                 if (error) {
                     return false;
                 } else {
-                    return true;
+                    return treatment;
                 }
             })
         
         }
 
-        module.exports.fileUpload = (file, userID) => {
-            console.log(userID);
+        module.exports.fileUpload = (file, treatmentID) => {
+            console.log(file);
 
-            try{
-            res.send({ status: "success", message: `${file.originalname} uploaded!` })
-            } catch(err){
-            res.send({ status: "err", error: err })
+            let updatedTreatment = {
+                
+                attachment: {
+                    fieldName: file.fieldname,
+                    originalName: file.originalname,
+                    filename: file.filename,
+                    path: file.path
+                }
+                
+        
             }
+        
+            return TreatmentRecords.findByIdAndUpdate(treatmentID, updatedTreatment).then((treatment, error) => {
+                if (error) {
+                    return false;
+                } else {
+                    return treatment;
+                }
+            })
         }

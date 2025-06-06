@@ -30,7 +30,20 @@ const treatmentRecordsSchema = new mongoose.Schema({
     },
 
     attachment: {
-        type: String
+        fieldName: {
+            type: String
+        },
+        originalName: {
+            type: String
+        },
+
+        filename: {
+            type: String
+
+        },
+        path: {
+            type: String
+        }
     },
 
     isActive: {

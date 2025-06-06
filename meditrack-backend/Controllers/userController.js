@@ -110,3 +110,28 @@ module.exports.getUsers = () => {
         })
     
     }
+
+    //add profile
+
+    module.exports.fileUpload = (file, userID) => {
+                console.log(file);
+    
+                let updatedUser = {
+                    
+                    attachment: {
+                        fieldName: file.fieldname,
+                        originalName: file.originalname,
+                        filename: file.filename,
+                        path: file.path
+                    }
+                    
+                }
+            
+                return User.findByIdAndUpdate(userID, updatedUser).then((user, error) => {
+                    if (error) {
+                        return false;
+                    } else {
+                        return user;
+                    }
+                })
+            }

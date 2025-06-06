@@ -1,9 +1,8 @@
 const express = require('express');
-
+const treatmentRecordsController = require('../Controllers/treatmentRecordsController');
 const router = express.Router();
 const multer = require('multer');
-const path = require('path');
-const treatmentRecordsController = require('../Controllers/treatmentRecordsController');
+
 
 
 let storage = multer.diskStorage({
@@ -20,10 +19,9 @@ let storage = multer.diskStorage({
 
 const upload = multer({ storage: storage })
 
-router.route("/upload").post(upload.single('image'), treatmentRecordsController.fileUpload);
 
-router.post("/upload", upload.single('image'), (req,res) => {
-  treatmentRecordsController.fileUpload;
+router.put("/upload/:id", upload.single('image'), (req,res) => {
+  treatmentRecordsController.fileUpload(req.file, req.params.id).then(result => res.send(result));
 })
 
 
