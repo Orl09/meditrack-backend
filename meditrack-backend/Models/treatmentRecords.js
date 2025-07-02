@@ -29,7 +29,8 @@ const treatmentRecordsSchema = new mongoose.Schema({
         type: String
     },
 
-    attachment: {
+    attachment: [
+        {
         fieldName: {
             type: String
         },
@@ -44,7 +45,8 @@ const treatmentRecordsSchema = new mongoose.Schema({
         path: {
             type: String
         }
-    },
+    }
+    ],
 
     isActive: {
         type: Boolean,

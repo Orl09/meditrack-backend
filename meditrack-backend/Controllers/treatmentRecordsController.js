@@ -84,3 +84,26 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
                 }
             })
         }
+
+module.exports.multipleFileUpload = (files, treatmentID) => {
+  if (!files || files.length === 0) {
+    return Promise.reject("No files uploaded");
+  }
+
+  console.log(files);
+
+  const attachments = files.map(file => ({
+    fieldName: file.fieldname,
+    originalName: file.originalname,
+    filename: file.filename,
+    path: file.path
+  }));
+
+  // Assuming 'attachments' is an array in your TreatmentRecords schema
+  return TreatmentRecords.findByIdAndUpdate(
+    treatmentID,
+    { $push: { attachment: { $each: attachments } } }, // Append to attachments array
+    { new: true }
+  );
+};
+

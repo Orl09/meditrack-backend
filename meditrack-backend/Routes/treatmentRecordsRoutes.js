@@ -24,6 +24,12 @@ router.put("/upload/:id", upload.single('image'), (req,res) => {
   treatmentRecordsController.fileUpload(req.file, req.params.id).then(result => res.send(result));
 })
 
+router.put("/uploadMultiple/:id", upload.array('images', 10), (req, res) => {
+  treatmentRecordsController.multipleFileUpload(req.files, req.params.id)
+    .then(result => res.send(result))
+    .catch(err => res.status(500).send({ error: err.message }));
+});
+
 
 router.post("/add", (req, res) => {
     treatmentRecordsController.addTreatment(req.body).then(result => res.send(result))
