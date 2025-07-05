@@ -30,6 +30,9 @@ router.put("/uploadMultiple/:id", upload.array('images', 10), (req, res) => {
     .catch(err => res.status(500).send({ error: err.message }));
 });
 
+router.put("/removeFile/:id", (req, res) => {
+    treatmentRecordsController.deleteAttachment(req.params.id, req.body).then(result => res.send(result))
+});
 
 router.post("/add", (req, res) => {
     treatmentRecordsController.addTreatment(req.body).then(result => res.send(result))

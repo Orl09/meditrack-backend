@@ -111,6 +111,19 @@ module.exports.getUsers = () => {
     
     }
 
+    //archive user
+    module.exports.archiveUser = (userId) => {
+        return User.findByIdAndUpdate(userId, {isActive: false}).then((user, error) => {
+            if (error) {
+                return false;
+            } else {
+                return true;
+            }
+        })
+    }
+
+    
+
     //add profile
 
     module.exports.fileUpload = (file, userID) => {

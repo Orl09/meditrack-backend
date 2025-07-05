@@ -107,3 +107,17 @@ module.exports.multipleFileUpload = (files, treatmentID) => {
   );
 };
 
+module.exports.deleteAttachment = async (treatmentID, filenameToDelete) => {
+  try {
+    const updatedTreatment = await TreatmentRecords.findByIdAndUpdate(
+      treatmentID,
+      { $pull: { attachment: { _id: filenameToDelete } } }, // Remove matching object
+      { new: true } 
+    ); 
+
+    return updatedTreatment;
+  } catch (error) {
+    throw error;
+  }
+};
+

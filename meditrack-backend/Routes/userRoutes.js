@@ -50,6 +50,10 @@ router.put("/update/:id", (req, res) => {
     userController.updateUser(req.params.id, req.body).then(result => res.send(result));
 })
 
+//archive user
+router.put("/archive/:id", (req, res) => {
+    userController.archiveUser(req.params.id).then(result => res.send(result));
+})
 
 
 module.exports = router;
