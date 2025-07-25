@@ -1,7 +1,7 @@
 const TreatmentRecords = require('../Models/treatmentRecords.js');
 
 
-//get user data from id
+    //get user data from id
     module.exports.findTreatment = (reqBody) => {
         return TreatmentRecords.find({
             userId: reqBody,
@@ -9,6 +9,35 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
         }).then(res => {
             return res;
         })
+    }
+
+    //get attachment data from id
+    module.exports.getAttachments = (reqBody) => {
+        return TreatmentRecords.find({
+            userId: reqBody,
+            isActive: true
+        }).then(res => {
+            const allActiveAttachments = res
+                .filter(res => 
+                    res.attachment !== null)
+                .filter(res => res.attachment.length != 0)
+                .flatMap(record =>
+                    record.attachment
+                    .filter(file => file.isActive))
+                
+
+                return allActiveAttachments;
+
+        })
+    }
+
+    //get treatment data
+    module.exports.archiveFile =(reqId) => {
+        let data = TreatmentRecords.findOne({
+            "attachment._id": reqId
+        })
+
+        return data;
     }
 
     //add treatment
@@ -120,4 +149,6 @@ module.exports.deleteAttachment = async (treatmentID, filenameToDelete) => {
     throw error;
   }
 };
+
+
 

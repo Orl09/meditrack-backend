@@ -44,6 +44,14 @@ const treatmentRecordsSchema = new mongoose.Schema({
         },
         path: {
             type: String
+        },
+        isActive: {
+            type:Boolean,
+            default: true
+        },
+        date: {
+            type: Date,
+            default: new Date()
         }
     }
     ],

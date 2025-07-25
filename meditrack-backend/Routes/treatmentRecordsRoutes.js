@@ -42,11 +42,19 @@ router.get("/:id", (req, res) => {
   treatmentRecordsController.findTreatment(req.params.id).then(resultFromController => res.send(resultFromController));
 });
 
+router.get("/attachments/:id", (req, res) => {
+  treatmentRecordsController.getAttachments(req.params.id).then(resultFromController => res.send(resultFromController));
+});
+
 //update treatment
 router.put("/update/:id", (req, res) => {
     treatmentRecordsController.updateTreatment(req.params.id, req.body).then(result => res.send(result));
 })
 
+//archive attachment
+router.get("/archiveAttachment/:id", (req, res) => {
+    treatmentRecordsController.archiveFile(req.params.id).then(result => res.send(result));
+})
 
 module.exports = router;
 
