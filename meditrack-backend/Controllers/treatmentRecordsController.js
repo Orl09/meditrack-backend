@@ -12,24 +12,26 @@ const TreatmentRecords = require('../Models/treatmentRecords.js');
     }
 
     //get attachment data from id
-    module.exports.getAttachments = (reqBody) => {
-        return TreatmentRecords.find({
-            userId: reqBody,
-            isActive: true
-        }).then(res => {
-            const allActiveAttachments = res
-                .filter(res => 
-                    res.attachment !== null)
-                .filter(res => res.attachment.length != 0)
-                .flatMap(record =>
-                    record.attachment
-                    .filter(file => file.isActive))
-                
+   module.exports.getAttachments = (userId) => {
+  return TreatmentRecords.find({ userId, isActive: true })
+    .lean() // <--- Add this
+    .then(records => {
+      const allActiveAttachments = records
+        .filter(record => Array.isArray(record.attachment) && record.attachment.length > 0)
+        .flatMap(record =>
+          record.attachment
+            .filter(file => file.isActive)
+            .map(file => ({
+              ...file,
+              treatmentDate: record.date
+            }))
+        );
 
-                return allActiveAttachments;
+      return allActiveAttachments;
+    });
+};
 
-        })
-    }
+
 
     //get treatment data
     module.exports.archiveFile =(reqId) => {
@@ -149,6 +151,5 @@ module.exports.deleteAttachment = async (treatmentID, filenameToDelete) => {
     throw error;
   }
 };
-
 
 
